@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+
+
+import logo from './logo.svg';
+import './App.css';
 
 function HelloWorld() {
   return <h1 className="greeting">Pokedex</h1>;
@@ -30,6 +34,20 @@ function MyButton() {
   );
 }
 
+function Test() {
+  const [currentTime, setCurrentTime] = useState(0);
+
+  useEffect(() => {
+    fetch('/model/time').then(res => res.json()).then(data => {
+      setCurrentTime(data.time);
+    });
+  }, []);
+
+  return (
+    <p>The current time is {currentTime}.</p>
+  );
+}
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
@@ -37,6 +55,7 @@ root.render(
     <UploadImage />
     <TakePhoto />
     <MyButton />
+    <Test />
   </React.StrictMode>
 );
 
