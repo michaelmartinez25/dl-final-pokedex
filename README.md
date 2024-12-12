@@ -1,72 +1,40 @@
 # dl-final-pokedex
 
-# Getting Started with Create React App
+## Guide I followed:
+https://blog.miguelgrinberg.com/post/how-to-create-a-react--flask-project
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Requirments
 
-## Available Scripts
+First you need to install:
 
-In the project directory, you can run:
+pip3 install flask
 
-### `npm start`
+pip3 install python-dotenv
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Overview
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+The overview of how this works is the following. In the model-api folder, the Flask backend is contained. It functions as an API, where all requests the front end doesn't understand get passed along to the backend via a proxy. If you look at package.json, you'll see a line that says "proxy": "http://localhost:5000" (5000 is the port Flask runs on by default).
 
-### `npm test`
+So specifically, a request http://localhost:3000/model/time from our front end gets redirected to http://localhost:5000/model/time where Flask is able to service it. Currently it's just fetching the time in python, but that can be switched out for our pokedex logic.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Possible issues
 
-### `npm run build`
+Upon first trying to get the react webpage to run I was getting this error:
+"react-scripts: command not found"
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+I solved that via deleting package-lock.json and then running: npm install
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+I also later got this error: 
+"Module not found: Error: Can't resolve 'web-vitals' in '/app/src'"
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Which can be solved with: npm install --save-dev web-vitals
 
-### `npm run eject`
+Also, this took me hours to figure out, but the .env file is critically important. The proxy does not work without it!
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## How to Run
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+First, to start the react frontend: npm start
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Once up, start the flask backend: npm run-script start-model-api
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+The current time (ie approx 1733931670.8567822) should display
