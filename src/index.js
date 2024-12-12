@@ -3,31 +3,34 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-
-
 import logo from './logo.svg';
 import './App.css';
-import { useState } from 'react';
-
-function Test() {
-  const [currentTime, setCurrentTime] = useState(0);
-
-  useEffect(() => {
-    fetch('/model/time').then(res => res.json()).then(data => {
-      setCurrentTime(data.time);
-    });
-  }, []);
-
-  return (
-    <p>The current time is {currentTime}.</p>
-  );
-}
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+// const theme = createTheme({
+//   components: {
+//     MuiTypography: {
+//       defaultProps: {
+//         variantMapping: {
+//           h1: 'h2',
+//           h2: 'h2',
+//           h3: 'h2',
+//           h4: 'h2',
+//           h5: 'h2',
+//           h6: 'h2',
+//           subtitle1: 'h2',
+//           subtitle2: 'h2',
+//           body1: 'span',
+//           body2: 'span',
+//         },
+//       },
+//     },
+//   },
+// });
+
 root.render(
   <React.StrictMode>
     <App />
-    <Test />
   </React.StrictMode>
 );
 
