@@ -3,40 +3,12 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-
-function HelloWorld() {
-  return <h1 className="greeting">Pokedex</h1>;
-}
-
-function UploadImage() {
-  return (
-    <input type="file" accept="image/*" />
-  );
-}
-
-function TakePhoto() {
-  return (
-    <button>
-      Take a photo
-    </button>
-  );
-}
-
-function MyButton() {
-  return (
-    <button>
-      Who's that Pokemon?
-    </button>
-  );
-}
+import { useState } from 'react';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <HelloWorld />
-    <UploadImage />
-    <TakePhoto />
-    <MyButton />
+    <App />
   </React.StrictMode>
 );
 
