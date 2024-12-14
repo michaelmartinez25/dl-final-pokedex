@@ -71,7 +71,7 @@ function ImageTest() {
   );
 }
 
-const Camera = () => {
+const Camera = ({openCam, setOpenCam}) => {
   const webcamRef = useRef(null);
   const onAcessClick = () => {
     setOpenCam(true)
