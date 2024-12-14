@@ -6,6 +6,20 @@ import reportWebVitals from './reportWebVitals';
 import logo from './logo.svg';
 import './App.css';
 
+function Test() {
+  const [currentTime, setCurrentTime] = useState(0);
+
+  useEffect(() => {
+    fetch('/model/time').then(res => res.json()).then(data => {
+      setCurrentTime(data.time);
+    });
+  }, []);
+
+  return (
+    <p>The current time is {currentTime}.</p>
+  );
+}
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 // const theme = createTheme({
 //   components: {

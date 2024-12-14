@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container'
 import Box from '@mui/material/Box';
 import Webcam from 'react-webcam';
+import axios from "axios";
 
 
 // header that is always in the app 
@@ -34,7 +35,43 @@ function UploadImage() {
   );
 }
 
-const Camera = ({openCam, setOpenCam}) => {
+function ImageTest() {
+
+  const [file, setFile] = useState()
+
+  function handleChange(event) {
+    setFile(event.target.files[0])
+  }
+  
+  function handleSubmit(event) {
+    event.preventDefault()
+    const url = '/model/image';
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('fileName', file.name);
+    const config = {
+      headers: {
+        'content-type': 'multipart/form-data',
+      },
+    };
+    axios.post(url, formData, config).then((response) => {
+      console.log(response.data);
+    });
+
+  }
+
+  return (
+    <div className="App">
+        <form onSubmit={handleSubmit}>
+          <h1>React File Upload</h1>
+          <input type="file" onChange={handleChange}/>
+          <button type="submit">Upload</button>
+        </form>
+    </div>
+  );
+}
+
+const Camera = () => {
   const webcamRef = useRef(null);
   const onAcessClick = () => {
     setOpenCam(true)
@@ -90,6 +127,7 @@ function App() {
     <div>
     <Camera openCam={openCam} setOpenCam={setOpenCam}/>
     <UploadImage />
+    <ImageTest/>
     </div>
     <Test />
     </React.Fragment>
