@@ -4,24 +4,15 @@ import './index.css';
 import App from './App';
 import FirstPage from './firstPage';
 import Pokemon from './Pokemon';
+import Heading from './AppHeader';
 import reportWebVitals from './reportWebVitals';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Switch } from '@mui/material';
 
-function Test() {
-  const [currentTime, setCurrentTime] = useState(0);
-
-  useEffect(() => {
-    fetch('/model/time').then(res => res.json()).then(data => {
-      setCurrentTime(data.time);
-    });
-  }, []);
-
-  return (
-    <p>The current time is {currentTime}.</p>
-  );
-}
+const theme = createTheme();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 // const theme = createTheme({
@@ -48,15 +39,26 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 {/* <React.StrictMode> */}
 
 root.render(
+  <ThemeProvider theme={theme}>
   <BrowserRouter>
   <Routes>
-    <Route path="/" element={<App />}>
-      <Route index element={<FirstPage/>} />
-      <Route path="whos-that-pokemon" element={<Pokemon/>}/>
-    </Route>
+  <Route path="/" element={<App />}>
+    <Route index element={<FirstPage/>} />
+    <Route path="whos-that-pokemon" element={<Pokemon/>}/>
+  </Route>
   </Routes>
   </BrowserRouter>
+ </ThemeProvider>
 );
+
+
+
+{/* <Routes>
+<Route path="/" element={<App />}>
+  <Route index element={<FirstPage/>} />
+  <Route path="whos-that-pokemon" element={<Pokemon/>}/>
+</Route>
+</Routes> */}
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
