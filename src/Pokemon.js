@@ -2,54 +2,20 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { Grid2, Typography, Box, IconButton } from "@mui/material";
 import { CircularProgress } from "@mui/material";
-// import CloseIcon from "@mui/icons-material/Close";
+import CloseIcon from "@mui/icons-material/Close";
 import PokemonStats from "./Stats";
 import TextToSpeech from "./TextToSpeech";
 import axios from "axios";
 
-// function ImageTest() {
-//   const [file, setFile] = useState()
-
-//   function handleChange(event) {
-//     setFile(event.target.files[0])
-//   }
-
-//   function handleSubmit(event) {
-//     event.preventDefault()
-//     const url = '/model/classify';
-//     const formData = new FormData();
-//     formData.append('file', file);
-//     formData.append('fileName', file.name);
-//     const config = {
-//       headers: {
-//         'content-type': 'multipart/form-data',
-//       },
-//     };
-//     axios.post(url, formData, config).then((response) => {
-//       console.log(response.data);
-//     });
-
-//   }
-
-//   return (
-//     <div className="App">
-//         <form onSubmit={handleSubmit}>
-//           <h1>File Upload</h1>
-//           <input type="file" onChange={handleChange}/>
-//           <button type="submit">Upload</button>
-//         </form>
-//     </div>
-//   );
-// }
-async function dataUrlToFile(dataUrl, fileName) {
+async function base64ToFile(dataUrl, fileName) {
   const response = await fetch(dataUrl);
   const blob = await response.blob();
-  return new File([blob], fileName, { type: 'image/png' });
+  return new File([blob], fileName, { type: "image/png" });
 }
 
 function Pokemon() {
   const location = useLocation();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   // console.log(location.state)
   const image = location.state?.image || "pikachu";
   // console.log(file);
@@ -59,15 +25,15 @@ function Pokemon() {
   const [loading, setLoading] = useState(null);
   const [error, setError] = useState(null);
 
-  // const handleClose = () => {
-  //   navigate("/");
-  // };
+  const handleClose = () => {
+    navigate("/");
+  };
 
   useEffect(() => {
     const fetchPokemonData = async () => {
       try {
         setLoading(true);
-        const file = await dataUrlToFile(image, 'foo-bar.png');
+        const file = await base64ToFile(image, "foo-bar.png");
         console.log("file:", file);
         const url = "/model/classify";
         const formData = new FormData();
@@ -80,7 +46,7 @@ function Pokemon() {
         };
 
         const response = await axios.post(url, formData, config);
-        console.log("POST RESPONSE: ", response)
+        console.log("POST RESPONSE: ", response);
         const pokemonName = response.data.toLowerCase();
 
         const infoResponse = await axios.get(
@@ -121,19 +87,6 @@ function Pokemon() {
         alignItems: "center",
       }}
     >
-      {/* <IconButton
-        onClick={handleClose}
-        sx={{
-          position: "absolute",
-          top: "10px",
-          right: "10px",
-          zIndex: 10,
-          backgroundColor: "rgba(255, 255, 255, 0.8)",
-          "&:hover": { backgroundColor: "rgba(255, 255, 255, 1)" },
-        }}
-      >
-        <CloseIcon />
-      </IconButton> */}
       {/* left side */}
       <Grid2
         item
@@ -150,7 +103,17 @@ function Pokemon() {
         }}
       >
         {loading ? (
-          <CircularProgress />
+          <Grid2
+            container
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100%",
+            }}
+          >
+            <CircularProgress sx={{ color: "#FFCB05"}} />
+          </Grid2>
         ) : error ? (
           <Typography variant="h6" color="error">
             {error}
@@ -164,10 +127,24 @@ function Pokemon() {
                 width: "100vw",
                 display: "flex",
                 alignItems: "center",
+                position: "relative",
                 flexDirection: "column",
                 gap: 2,
               }}
             >
+              <IconButton
+                onClick={handleClose}
+                sx={{
+                  position: "absolute",
+                  top: "12px",
+                  right: "20px",
+                  zIndex: 10,
+                  backgroundColor: "rgba(255, 255, 255, 0.8)",
+                  "&:hover": { backgroundColor: "rgba(255, 255, 255, 1)" },
+                }}
+              >
+                <CloseIcon />
+              </IconButton>
               <Box
                 sx={{
                   height: "250px",
@@ -217,11 +194,16 @@ function Pokemon() {
                     "No description available."}
                 </Typography>
               </Box>
-              <TextToSpeech pokemon_name={pokemonInfo.name} />
+              <TextToSpeech
+                name={pokemonInfo.name}
+                description={
+                  pokemonSpecies.flavor_text_entries
+                    .find((entry) => entry.language.name === "en")
+                    ?.flavor_text.replace(/\f/g, " ") ||
+                  "No description available."
+                }
+              />
             </Grid2>
-            // <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#333' }}>
-            //   {pokemonInfo.abilities[0].ability.name}
-            // </Typography>
           )
         )}
       </Grid2>

@@ -7,20 +7,7 @@ import { Input, Container, Button, Box, Grid2 } from "@mui/material";
 import axios from "axios";
 import Pokemon from "./Pokemon";
 
-// function PokemonButton({image}) {
-//   const navigate = useNavigate();
-
-//   // console.log(image)
-
-//   const handleOnClick = () => {
-//     // localStorage.setItem("capturedImage", image);
-//     navigate("/whos-that-pokemon", { state: { image: image } });
 //  from: https://stackoverflow.com/questions/35940290/how-to-convert-base64-string-to-javascript-file-object-like-as-from-file-input-f
-export async function dataUrlToFile(dataUrl, fileName) {
-  const response = await fetch(dataUrl);
-  const blob = await response.blob();
-  return new File([blob], fileName, { type: 'image/png' });
-}
 
 function UploadImage({ setImage }) {
   function handleUpload(event) {
@@ -44,8 +31,8 @@ function UploadImage({ setImage }) {
       sx={{
         backgroundColor: "white", // White background
         color: "#cc0000", // Red text color to match theme
-        padding: "8px 16px", // Smaller padding for a more compact button
-        borderRadius: "10px", // Rounded corners
+        padding: "8px 16px", 
+        borderRadius: "10px",
         fontWeight: "bold",
         fontSize: "14px", // Smaller font size
         letterSpacing: "1px",
@@ -280,38 +267,3 @@ function FirstPage() {
 }
 
 export default FirstPage;
-
-// function ImageTest() {
-//   const [file, setFile] = useState()
-
-//   function handleChange(event) {
-//     setFile(event.target.files[0])
-//   }
-
-//   function handleSubmit(event) {
-//     event.preventDefault()
-//     const url = '/model/image';
-//     const formData = new FormData();
-//     formData.append('file', file);
-//     formData.append('fileName', file.name);
-//     const config = {
-//       headers: {
-//         'content-type': 'multipart/form-data',
-//       },
-//     };
-//     axios.post(url, formData, config).then((response) => {
-//       console.log(response.data);
-//     });
-
-//   }
-
-//   return (
-//     <div className="App">
-//         <form onSubmit={handleSubmit}>
-//           <h1>File Upload</h1>
-//           <input type="file" onChange={handleChange}/>
-//           <button type="submit">Upload</button>
-//         </form>
-//     </div>
-//   );
-// }
