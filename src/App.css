@@ -28,7 +28,7 @@
   color: #61dafb;
 }
 
-/* Style for the main container */
+Style for the main container
 .app-container {
   padding: 20px;            /* Padding to give space inside the border */
   margin-top: 60px;         /* Prevent content from hiding under the fixed header */
