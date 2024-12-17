@@ -7,13 +7,35 @@ import { Input, Container, Button, Box, Grid2 } from "@mui/material";
 import axios from "axios";
 import Pokemon from "./Pokemon";
 
+// function PokemonButton({image}) {
+//   const navigate = useNavigate();
+
+//   // console.log(image)
+
+//   const handleOnClick = () => {
+//     // localStorage.setItem("capturedImage", image);
+//     navigate("/whos-that-pokemon", { state: { image: image } });
+//  from: https://stackoverflow.com/questions/35940290/how-to-convert-base64-string-to-javascript-file-object-like-as-from-file-input-f
+export async function dataUrlToFile(dataUrl, fileName) {
+  const response = await fetch(dataUrl);
+  const blob = await response.blob();
+  return new File([blob], fileName, { type: 'image/png' });
+}
+
 function UploadImage({ setImage }) {
   function handleUpload(event) {
     const file = event.target.files[0];
     // get the image URL to display it
-    // console.log("here")
-    // console.log(URL.createObjectURL(file))
-    setImage(file);
+    if (file) {
+      // Create a FileReader to convert file to Base64
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        const base64Image = e.target.result; // This contains the Base64 string
+        setImage(base64Image); // Set it for display      // Optionally store the original file
+      };
+      reader.readAsDataURL(file); // Convert file to Base64
+    }
   }
   return (
     // <Input type="file" accept="image/*" onChange={handleUpload}/>
@@ -64,11 +86,14 @@ const Camera = ({ openCam, setOpenCam, setImage }) => {
     <div>
       {!openCam ? (
         // only open when cam is opened but also when an image is not captured
-        <Box sx={{ 
-          display: 'flex',
-          flexDirection: 'row',
-          marginTop:'100px',
-          gap: 2 }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            marginTop: "100px",
+            gap: 2,
+          }}
+        >
           <Button
             onClick={onAcessClick}
             sx={{
@@ -159,13 +184,12 @@ const Camera = ({ openCam, setOpenCam, setImage }) => {
   );
 };
 
-function PokemonButton({image}) {
+function PokemonButton({ image }) {
   const navigate = useNavigate();
 
-  // console.log(image)
-
-  const handleOnClick = () => {
-    // localStorage.setItem("capturedImage", image);
+  const handleOnClick = async () => {
+    // const file = await dataUrlToFile(image, "foo-bar")
+    console.log("Image being passed to button:", image);
     navigate("/whos-that-pokemon", { state: { image: image } });
   };
 
@@ -202,10 +226,23 @@ function PokemonButton({image}) {
   );
 }
 
+// function Test() {
+//   const [currentTime, setCurrentTime] = useState(0);
+
+//   useEffect(() => {
+//     fetch('/model/time').then(res => res.json()).then(data => {
+//       setCurrentTime(data.time);
+//     });
+//   }, []);
+
+//   return (
+//     <p>The current time is {currentTime}.</p>
+//   );
+// }
+
 function FirstPage() {
   const [openCam, setOpenCam] = useState(false);
   const [image, setImage] = useState(null);
-  const [captured, setCaptured] = useState(null);
 
   return (
     <Box
@@ -221,7 +258,7 @@ function FirstPage() {
         padding: "20px", // Optional: Add padding if needed
       }}
     >
-      <Camera openCam={openCam} setOpenCam={setOpenCam} setImage={setImage} setCaptured={setCaptured}/>
+      <Camera openCam={openCam} setOpenCam={setOpenCam} setImage={setImage} />
 
       {image && (
         <img
@@ -243,3 +280,38 @@ function FirstPage() {
 }
 
 export default FirstPage;
+
+// function ImageTest() {
+//   const [file, setFile] = useState()
+
+//   function handleChange(event) {
+//     setFile(event.target.files[0])
+//   }
+
+//   function handleSubmit(event) {
+//     event.preventDefault()
+//     const url = '/model/image';
+//     const formData = new FormData();
+//     formData.append('file', file);
+//     formData.append('fileName', file.name);
+//     const config = {
+//       headers: {
+//         'content-type': 'multipart/form-data',
+//       },
+//     };
+//     axios.post(url, formData, config).then((response) => {
+//       console.log(response.data);
+//     });
+
+//   }
+
+//   return (
+//     <div className="App">
+//         <form onSubmit={handleSubmit}>
+//           <h1>File Upload</h1>
+//           <input type="file" onChange={handleChange}/>
+//           <button type="submit">Upload</button>
+//         </form>
+//     </div>
+//   );
+// }

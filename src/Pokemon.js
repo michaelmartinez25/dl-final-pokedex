@@ -40,27 +40,18 @@ import axios from "axios";
 //     </div>
 //   );
 // }
-
-function base64ToFile(base64String, fileName) {
-  const arr = base64String.split(",");
-  const mime = arr[0].match(/:(.*?);/)[1];
-  const bstr = atob(arr[1]);
-  let n = bstr.length;
-  const u8arr = new Uint8Array(n);
-
-  while (n--) {
-    u8arr[n] = bstr.charCodeAt(n);
-  }
-
-  return new File([u8arr], fileName, { type: mime });
+async function dataUrlToFile(dataUrl, fileName) {
+  const response = await fetch(dataUrl);
+  const blob = await response.blob();
+  return new File([blob], fileName, { type: 'image/png' });
 }
 
 function Pokemon() {
   const location = useLocation();
   // const navigate = useNavigate();
   // console.log(location.state)
-  const file = location.state?.image || "pikachu";
-  console.log(file);
+  const image = location.state?.image || "pikachu";
+  // console.log(file);
   // const file = localStorage.getItem("capturedImage")
   const [pokemonInfo, setPokemonInfo] = useState(null);
   const [pokemonSpecies, setPokemonSpecies] = useState(null);
@@ -75,6 +66,8 @@ function Pokemon() {
     const fetchPokemonData = async () => {
       try {
         setLoading(true);
+        const file = await dataUrlToFile(image, 'foo-bar.png');
+        console.log("file:", file);
         const url = "/model/classify";
         const formData = new FormData();
         formData.append("file", file);
@@ -86,11 +79,13 @@ function Pokemon() {
         };
 
         const response = await axios.post(url, formData, config);
+        console.log("POST RESPONSE: ", response)
         const pokemonName = response.data.toLowerCase();
 
         const infoResponse = await axios.get(
           `https://pokeapi.co/api/v2/pokemon/${pokemonName}`
         );
+
         setPokemonInfo(infoResponse.data);
 
         const speciesResponse = await axios.get(
@@ -108,7 +103,7 @@ function Pokemon() {
     };
 
     fetchPokemonData();
-  }, [file]);
+  }, [image]);
 
   return (
     // <Box sx={{ height: "100vh", width: "100vw" }}> {/* Fullscreen layout */}
