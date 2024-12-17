@@ -37,19 +37,19 @@ function UploadImage({ setImage }) {
       <Button
         component="label" // Make the button act like a label for the input
         sx={{
-          backgroundColor: "white", // White background
-          color: "#cc0000", // Red text color to match theme
+          backgroundColor: "white", 
+          color: "#cc0000", // red text
           padding: "8px 16px",
           borderRadius: "10px",
           fontWeight: "bold",
-          fontSize: "14px", // Smaller font size
+          fontSize: "14px", 
           letterSpacing: "1px",
-          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)", // Subtle shadow
+          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)", // shadow
           textTransform: "uppercase",
           "&:hover": {
-            backgroundColor: "#f2f2f2", // Light grey on hover
-            transform: "scale(1.05)", // Slight scale-up on hover
-            boxShadow: "0 6px 12px rgba(0, 0, 0, 0.3)", // Stronger shadow on hover
+            backgroundColor: "#f2f2f2", // light grey
+            transform: "scale(1.05)", // scale-up on hover
+            boxShadow: "0 6px 12px rgba(0, 0, 0, 0.3)", // stronger shadow on hover
           },
           transition:
             "transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease",
@@ -61,7 +61,7 @@ function UploadImage({ setImage }) {
           type="file"
           accept="image/*"
           onChange={handleUpload}
-          sx={{ display: "none" }} // Hide the default input
+          sx={{ display: "none" }}
         />
       </Button>
       <Snackbar
@@ -84,8 +84,9 @@ const Camera = ({ openCam, setOpenCam, setImage }) => {
     setImage(null);
   };
   const capture = () => {
-    const imageSrc = webcamRef.current.getScreenshot(); // Capture the screenshot
-    setImage(imageSrc); // Set the captured image in the state
+    // Get a screenshot of webcam
+    const imageSrc = webcamRef.current.getScreenshot(); 
+    setImage(imageSrc);
   };
   return (
     <div>
@@ -102,21 +103,20 @@ const Camera = ({ openCam, setOpenCam, setImage }) => {
           <Button
             onClick={onAcessClick}
             sx={{
-              backgroundColor: "#cc0000", // Match the theme color
+              backgroundColor: "#cc0000", 
               color: "white",
-              padding: "12px 24px", // Add padding for better spacing
-              // borderRadius: "30px", // Rounded corners
+              padding: "12px 24px", // padding for 
               fontWeight: "bold",
               fontSize: "18px",
               borderRadius: "10px",
-              boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)", // Soft shadow
+              boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
               "&:hover": {
-                backgroundColor: "#a30000", // Darker red on hover
-                transform: "scale(1.05)", // Slight scale-up effect on hover
-                boxShadow: "0 8px 20px rgba(0, 0, 0, 0.4)", // Stronger shadow on hover
+                backgroundColor: "#a30000", // darker red on hover
+                transform: "scale(1.05)", 
+                boxShadow: "0 8px 20px rgba(0, 0, 0, 0.4)", // 
               },
               transition:
-                "transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease", // Smooth transition
+                "transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease", // smooth transition
             }}
           >
             Access Camera
@@ -128,26 +128,26 @@ const Camera = ({ openCam, setOpenCam, setImage }) => {
           sx={{
             gap: 2,
             display: "flex",
-            justifyContent: "center", // Center horizontally
-            alignItems: "center", // Center vertically
+            justifyContent: "center",
+            alignItems: "center",
             height: "50vh",
             flexDirection: "column",
-            padding: "20px", // Optional: Add padding if needed
+            padding: "20px", 
           }}
         >
           <Box
             sx={{
-              border: "5px solid #cc0000", // Red border to match your theme
-              borderRadius: "20px", // Rounded corners
-              padding: "10px", // Padding around the webcam
-              boxShadow: "0 4px 10px rgba(0, 0, 0, 0.3)", // Subtle shadow for a floating effect
-              transform: "scale(1)", // Slight scaling effect when focused
-              width: "45%", // Set width to 50% of the parent container
-              height: "60%", // Set height to 50% of the parent container to make it square
-              transition: "transform 0.3s ease, box-shadow 0.3s ease", // Smooth transition effect for interaction
+              border: "5px solid #cc0000", // red border around image
+              borderRadius: "20px", 
+              padding: "10px", // padding around the webcam
+              boxShadow: "0 4px 10px rgba(0, 0, 0, 0.3)", 
+              transform: "scale(1)", 
+              width: "45%", // width to 45% of the parent container
+              height: "60%", // height to 60% of the parent
+              transition: "transform 0.3s ease, box-shadow 0.3s ease", 
               "&:hover": {
-                transform: "scale(1.05)", // Slightly scale up when hovered
-                boxShadow: "0 8px 15px rgba(0, 0, 0, 0.5)", // Stronger shadow on hover
+                transform: "scale(1.05)", 
+                boxShadow: "0 8px 15px rgba(0, 0, 0, 0.5)", 
               },
             }}
           >
@@ -155,10 +155,10 @@ const Camera = ({ openCam, setOpenCam, setImage }) => {
               audio={false}
               ref={webcamRef}
               screenshotFormat="image/jpeg"
-              width="100%" // Make webcam fill 100% of the container
+              width="100%" 
               height="100%"
               style={{
-                transform: "scaleX(-1)", // This will mirror the webcam feed
+                transform: "scaleX(-1)", // flips horizontally the webcam since webcam flips image
                 height: "auto",
               }}
             />
@@ -166,16 +166,16 @@ const Camera = ({ openCam, setOpenCam, setImage }) => {
           <Button
             onClick={capture}
             sx={{
-              backgroundColor: "#cc0000", // Match the theme color
+              backgroundColor: "#cc0000",
               color: "white",
               padding: "10px 20px",
-              borderRadius: "30px", // Rounded corners for a sleek look
+              borderRadius: "30px",
               fontWeight: "bold",
               fontSize: "16px",
               "&:hover": {
-                backgroundColor: "#f2f2f2", // Light gray on hover
-                transform: "scale(1.05)", // Slight scale-up effect for hover
-                boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)", // Subtle shadow on hover
+                backgroundColor: "#f2f2f2", 
+                transform: "scale(1.05)",
+                boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
               },
             }}
           >
@@ -193,8 +193,6 @@ function PokemonButton({ image }) {
   const navigate = useNavigate();
 
   const handleOnClick = async () => {
-    // const file = await dataUrlToFile(image, "foo-bar")
-    console.log("Image being passed to button:", image);
     navigate("/whos-that-pokemon", { state: { image: image } });
   };
 
@@ -202,28 +200,27 @@ function PokemonButton({ image }) {
     <Button
       onClick={handleOnClick}
       sx={{
-        backgroundImage: 'url("https://your-image-url.com")', // Replace with your image URL
-        backgroundSize: "cover", // Make the image cover the entire button
-        backgroundPosition: "center", // Center the image in the button
-        color: "white", // White text to stand out against the background
-        padding: "16px 32px", // Spacing for a bigger, more impactful button
-        borderRadius: "10px", // Rounded corners for a sleek look
-        fontWeight: "bold", // Bold font for emphasis
-        fontSize: "20px", // Larger text for readability
-        fontFamily: "Arial, sans-serif", // Clean and modern font
-        letterSpacing: "1.5px", // Slight spacing between letters
-        textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)", // Shadow for better text visibility
-        textTransform: "uppercase", // Uppercase for a strong visual impact
-        width: "400px", // Width to create a bold, rectangular shape
-        height: "80px", // Adjust height to make it proportional
-        boxShadow: "0 6px 12px rgba(0, 0, 0, 0.7)", // Subtle shadow for depth
+        backgroundImage: 'url("https://your-image-url.com")', // background image url
+        backgroundSize: "cover", // covers entire button
+        backgroundPosition: "center", 
+        color: "white", // white text
+        padding: "16px 32px", 
+        borderRadius: "10px",
+        fontWeight: "bold", 
+        fontSize: "20px", 
+        fontFamily: "Arial, sans-serif", 
+        letterSpacing: "1.5px", 
+        textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)", // shadow for better visibillity
+        width: "400px", 
+        height: "80px", 
+        boxShadow: "0 6px 12px rgba(0, 0, 0, 0.7)", 
         "&:hover": {
-          transform: "scale(1.05)", // Slight zoom effect on hover
-          boxShadow: "0 8px 16px rgba(0, 0, 0, 0.4)", // Stronger shadow on hover
-          opacity: 0.9, // Slight dimming effect on hover
+          transform: "scale(1.05)", 
+          boxShadow: "0 8px 16px rgba(0, 0, 0, 0.4)", 
+          opacity: 0.9, // dimming effect on hover
         },
         transition:
-          "transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease", // Smooth hover effects
+          "transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease",
       }}
     >
       WHO'S THAT POKEMON?

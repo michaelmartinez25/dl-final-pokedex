@@ -8,7 +8,7 @@ import TextToSpeech from "./TextToSpeech";
 import axios from "axios";
 
 /**
- * A function to turn base64 (dataURL) to images. Needed to turn screenshot images and uploaded
+ * A function to turn base64 (dataURL) to images. Needed to turn webcam screenshots and uploaded
  * images back into image files to send over to the backend.
  *
  * @param {Object} dataUrl - the dataURL of the file
@@ -91,18 +91,18 @@ function PokemonDetails({ pokemonInfo, pokemonSpecies }) {
       <Box
         sx={{
           width: "75%",
-          height: "5%", // Fixed height for scroll
+          height: "5%", 
           overflowY: "auto",
-          // backgroundColor: "#fafafa",
           padding: "10px",
           borderRadius: "8px",
           textAlign: "justify",
         }}
       >
         <Typography variant="body2" sx={{ fontWeight: "bold", color: "#555" }}>
+          {/* find the english flavor text and replace */}
           {pokemonSpecies.flavor_text_entries
             .find((entry) => entry.language.name === "en")
-            ?.flavor_text.replace(/\f/g, " ") || "No description available."}
+            ?.flavor_text}
         </Typography>
       </Box>
       <TextToSpeech
@@ -110,7 +110,7 @@ function PokemonDetails({ pokemonInfo, pokemonSpecies }) {
         description={
           pokemonSpecies.flavor_text_entries
             .find((entry) => entry.language.name === "en")
-            ?.flavor_text.replace(/\f/g, " ") || "No description available."
+            ?.flavor_text
         }
       />
     </Grid2>
