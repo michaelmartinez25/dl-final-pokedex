@@ -107,6 +107,7 @@ function PokemonDetails({ pokemonInfo, pokemonSpecies }) {
       </Box>
       <TextToSpeech
         name={pokemonInfo.name}
+        genus={pokemonSpecies.genera[7].genus}
         description={
           pokemonSpecies.flavor_text_entries
             .find((entry) => entry.language.name === "en")
