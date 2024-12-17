@@ -1,33 +1,40 @@
-import time
-
 import os
 from flask import Flask, request
 import torch
 import torch.nn as nn
 import torchvision.models as models
 from glob import glob
-import torchvision.io as io
 from torchvision.transforms.functional import pil_to_tensor
 from PIL import Image
-
 
 UPLOAD_FOLDER = './upload'
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+
 @app.route('/model/classify', methods=['POST'])
 def classify_pokemon():
+    """POST Method to recieve an Pokemon image and return its classification
+    
+    Invoked by the REACT front end at the url */model/classify
+
+    Returns:
+        The string pokemon classification of the image in the upload folder
+    """
     if request.method == 'POST':
-        # check if the post request has the file part
         if 'file' not in request.files:
-            return "NO FILE PART BAD"
+            return "No file was uploaded"
         file = request.files['file']
-        # If the user does not select a file, the browser submits an
-        # empty file without a filename.
-        if file.filename == '':
-            return "NO USER SELECTED FILE BAD"
+
         if file:
+            if file.filename == '':
+                return "Uploaded file has no filename"
+            
+            if not validate_extension(file.filename):
+                return f"Invalid file extension for file: {file.filename}"
+
+            # Removing old uploaded images in the directory
             for filename_to_del in glob(UPLOAD_FOLDER+'/*.*'):
                 os.remove(filename_to_del)
 
@@ -35,11 +42,23 @@ def classify_pokemon():
             file.save(path)
             return classify()
         
-        return "BAD"
-    return "This was a not a POST request"
+        return "File was uploaded improperly"
+    return "Non POST requests are not supported"
+
+
+def validate_extension(filename):
+    """Validates whether or not the extension on the file is valid"""
+    return filename.split(".")[1] in ["png", "jpeg", "jpg"]
 
 
 def classify():
+    """Classifies the input image using a finetuned ResNet50 model 
+    
+    Gets the image from the upload folder and conducts inference on it
+
+    Returns: 
+        The string pokemon classification of the image in the upload folder
+    """
     resnet50 = models.resnet50(weights=models.ResNet50_Weights.IMAGENET1K_V1)
     for param in resnet50.parameters():
         param.requires_grad = False
@@ -70,12 +89,10 @@ def classify():
 
     argmax = resnet50(img.unsqueeze(0)).argmax(dim=1)
 
-    # output = resnet50(img.unsqueeze(0)).cpu().detach()
-    # predicted_class = np.argmax(output.numpy())
-
+    # Gets the associated pokemon with the argmax index
     return POKEMON_LIST[argmax]
 
-
+# All 151 Generation 1 pokemon in alphabetical order
 POKEMON_LIST = [
     'Abra',
     'Aerodactyl',
