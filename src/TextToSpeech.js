@@ -11,7 +11,7 @@ import VolumeUpIcon from '@mui/icons-material/VolumeUp';
  */
 function TextToSpeech({ name, description }) {
     // create an utterance synthesis
-    const utterance = new SpeechSynthesisUtterance(name + ", the " + genus + ". " + description);
+    const utterance = new SpeechSynthesisUtterance(name + ". " + description);
 
     // the voice of the text-to-speech
     const voice = speechSynthesis.getVoices().filter(voice => voice.name === 'Trinoids')[0];
