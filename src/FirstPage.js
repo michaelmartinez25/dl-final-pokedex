@@ -5,7 +5,7 @@ import Webcam from "react-webcam";
 import { Input, Button, Box, Alert, Snackbar } from "@mui/material";
 
 /**
- * A component that render the pokemon's details: its picture, description, and stats.
+ * An upload button component
  *
  * @param {Object} props - the props for the component
  * @param {Object} props.setImage - the useState set function for image
@@ -33,6 +33,7 @@ function UploadImage({ setImage }) {
       reader.readAsDataURL(file);
     } else if (file) {
       // if there's a file that's uploaded that is not an image file
+      // this opens an alert component inside a snackbar at the bottom left
       setOpenAlert(true);
     }
   }
