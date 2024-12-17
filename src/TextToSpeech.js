@@ -10,9 +10,9 @@ function TextToSpeech({ name, description }) {
     // Create a SpeechSynthesisUtterance
     const utterance = new SpeechSynthesisUtterance(name + ". " + description);
 
-    // the voice of the text-to-speech, tweak in demo
-    const voices = speechSynthesis.getVoices();
-    utterance.voice = voices[42];
+    // the voice of the text-to-speech
+    const voice = speechSynthesis.getVoices().filter(voice => voice.name === 'Trinoids')[0];
+    utterance.voice = voice;
 
     // Speak the text
     speechSynthesis.speak(utterance);
