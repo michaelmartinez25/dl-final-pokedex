@@ -1,14 +1,23 @@
-// PokemonStats.js
 import React from "react";
 import { Box, Typography, LinearProgress } from "@mui/material";
 
-// A helper function to calculate the percentage for the progress bar
-const calculatePercentage = (statValue) => {
+//
+/**
+ *  A helper function to calculate the percentage for the progress bar.
+ * @returns {float} what percentage the value is of the maximum stat bar
+ */
+function calculatePercentage(statValue) {
   return (statValue / 255) * 100;
 };
 
-// PokemonStats component
-const PokemonStats = ({ stats }) => {
+/**
+ * A component that displays a Pokemon's stats in bars
+ *
+ * @param {Object} props - The props for the component.
+ * @param {Object} props.stats - The stats for the component.
+ * @returns {JSX.Element} - The pokemon stats component
+ */
+function PokemonStats({ stats }) {
     const stat_colors = {
         hp: "#ff6b6b", 
         attack: "#f9c74f", 
@@ -36,7 +45,7 @@ const PokemonStats = ({ stats }) => {
               height: "12px",
               borderRadius: "8px",
               "& .MuiLinearProgress-bar": {
-                backgroundColor: stat_colors[stat.stat.name], // Dynamic color
+                backgroundColor: stat_colors[stat.stat.name], // get color from dictionary
               },
               backgroundColor: "#e0e0e0",
             }}

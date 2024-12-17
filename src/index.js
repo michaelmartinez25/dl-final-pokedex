@@ -9,9 +9,11 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+// MUI theme, needed to use "sx" property
 const theme = createTheme();
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+// render everything 
 
 root.render(
   <ThemeProvider theme={theme}>

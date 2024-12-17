@@ -3,17 +3,27 @@ import Container from "@mui/material/Container";
 import { Typography, Box } from "@mui/material";
 import { useNavigate } from "react-router";
 
+/**
+ * A function that returns the Header component of the app
+ *
+ * @returns {JSX.Element} - the header component
+ */
 function Heading() {
-  const navigate = useNavigate(); // Hook for programmatic navigation
+  // Hook for programmatic navigation
+  const navigate = useNavigate();
 
-  const handleClick = () => {
+  /**
+   * A function that is triggered when the 'x' button is clicked.
+   * Navigates to the beginning
+   */
+  function handleClick() {
     // if the we're at the home page trigger a refresh
     if (window.location.pathname === "/") {
-      window.location.reload(); 
+      window.location.reload();
     } else {
       navigate("/");
     }
-  };
+  }
 
   return (
     <AppBar
@@ -22,36 +32,36 @@ function Heading() {
         top: 0,
         background: "linear-gradient(45deg, #b30000, #cc3333)", // Gradient background
         padding: "10px 0",
-        boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)", // Subtle shadow to elevate the header
-        transition: "box-shadow 0.3s ease", // Smooth transition on hover
+        boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
+        transition: "box-shadow 0.3s ease",
         "&:hover": {
-          boxShadow: "0 8px 20px rgba(0, 0, 0, 0.4)", // Deepen shadow on hover
+          boxShadow: "0 8px 20px rgba(0, 0, 0, 0.4)",
         },
       }}
     >
       <Container
         maxWidth="xl"
         sx={{
-          display: "flex", // Use flexbox to center content within the Container
-          justifyContent: "center", // Horizontally center content
-          alignItems: "center", // Vertically center content
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
         <Box
           sx={{
-            cursor: "pointer", // Add pointer cursor for clickable effect
+            cursor: "pointer", // add pointer cursor for clickable effect
           }}
-          onClick={handleClick} // Handle click event
+          onClick={handleClick}
         >
           <Typography
             variant="h6"
             sx={{
               color: "white",
               fontWeight: "bold",
-              fontSize: "1.8rem", // Slightly bigger font size for more emphasis
+              fontSize: "1.8rem",
               letterSpacing: "2px",
-              textTransform: "uppercase", // Transform text to uppercase for a bold statement
-              fontFamily: "Roboto, sans-serif", // Clean font family
+              textTransform: "uppercase",
+              fontFamily: "Roboto, sans-serif",
             }}
           >
             Pokédex

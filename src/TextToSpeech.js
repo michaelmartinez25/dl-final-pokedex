@@ -10,14 +10,14 @@ import VolumeUpIcon from '@mui/icons-material/VolumeUp';
  * @returns {JSX.Element} - the button that when click triggers the speaking
  */
 function TextToSpeech({ name, description }) {
-  function speak() {
     // create an utterance synthesis
     const utterance = new SpeechSynthesisUtterance(name + ". " + description);
 
     // the voice of the text-to-speech
     const voice = speechSynthesis.getVoices().filter(voice => voice.name === 'Trinoids')[0];
     utterance.voice = voice;
-
+  
+  function speak() {
     // speak the text
     speechSynthesis.speak(utterance);
   }
