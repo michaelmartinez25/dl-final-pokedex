@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { Grid2, Typography, Box, IconButton } from "@mui/material";
 import { CircularProgress } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
+// import CloseIcon from "@mui/icons-material/Close";
 import PokemonStats from "./Stats";
+import TextToSpeech from "./TextToSpeech";
 import axios from "axios";
 
 // function ImageTest() {
@@ -221,6 +222,7 @@ function Pokemon() {
                     "No description available."}
                 </Typography>
               </Box>
+              <TextToSpeech pokemon_name={pokemonInfo.name} />
             </Grid2>
             // <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#333' }}>
             //   {pokemonInfo.abilities[0].ability.name}
