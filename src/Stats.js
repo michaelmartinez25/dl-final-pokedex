@@ -10,13 +10,12 @@ const calculatePercentage = (statValue) => {
 // PokemonStats component
 const PokemonStats = ({ stats }) => {
     const stat_colors = {
-        hp: "#ff6b6b", // Red for HP
-        attack: "#f9c74f", // Yellow for Attack
-        defense: "#90be6d", // Green for Defense
-        "special-attack": "#4d96ff", // Blue for Special Attack
-        "special-defense": "#9d4edd", // Purple for Special Defense
-        speed: "#f3722c", // Orange for Speed
-        default: "#adb5bd", // Gray for unknown stats
+        hp: "#ff6b6b", 
+        attack: "#f9c74f", 
+        defense: "#90be6d", 
+        "special-attack": "#4d96ff", 
+        "special-defense": "#9d4edd", 
+        speed: "#f3722c",
       };
 
   return (

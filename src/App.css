@@ -28,15 +28,7 @@
   color: #61dafb;
 }
 
-Style for the main container
-.app-container {
-  padding: 20px;            /* Padding to give space inside the border */
-  margin-top: 60px;         /* Prevent content from hiding under the fixed header */
-  height: 100vh;            /* Make the container take up the full viewport height */
-  box-sizing: border-box;   /* Ensure padding and border are included in the total height */
-}
-
-/* relook at this */
+relook at this
 .fade-to-white {
   position: fixed;
   top: 0;

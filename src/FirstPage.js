@@ -1,61 +1,79 @@
-import React, { useEffect, useState, useRef } from "react";
-import Heading from "./AppHeader";
+import React, { useState, useRef } from "react";
 import "./App.css";
 import { useNavigate } from "react-router";
 import Webcam from "react-webcam";
-import { Input, Container, Button, Box, Grid2 } from "@mui/material";
-import axios from "axios";
-import Pokemon from "./Pokemon";
+import { Input, Button, Box, Alert, Snackbar } from "@mui/material";
 
-//  from: https://stackoverflow.com/questions/35940290/how-to-convert-base64-string-to-javascript-file-object-like-as-from-file-input-f
-
+/**
+ * A component that render the pokemon's details: its picture, description, and stats.
+ *
+ * @param {Object} props - The props for the component.
+ * @param {Object} props.setImage - the useState set function for image
+ * @returns {JSX.Element} - An upload button
+ */
 function UploadImage({ setImage }) {
+  const [openAlert, setOpenAlert] = useState(false);
   function handleUpload(event) {
     const file = event.target.files[0];
     // get the image URL to display it
-    if (file) {
+    if (file && file.type.startsWith("image/")) {
       // Create a FileReader to convert file to Base64
       const reader = new FileReader();
 
       reader.onload = (e) => {
-        const base64Image = e.target.result; // This contains the Base64 string
-        setImage(base64Image); // Set it for display      // Optionally store the original file
+        const base64Image = e.target.result; 
+        setImage(base64Image); 
       };
-      reader.readAsDataURL(file); // Convert file to Base64
+      // turns image to dataUrl, base64
+      reader.readAsDataURL(file); 
+    } else if (file){
+      // if there's a file that's uploaded that is not an image file
+      setOpenAlert(true);
     }
   }
   return (
     // <Input type="file" accept="image/*" onChange={handleUpload}/>
-    <Button
-      component="label" // Make the button act like a label for the input
-      sx={{
-        backgroundColor: "white", // White background
-        color: "#cc0000", // Red text color to match theme
-        padding: "8px 16px", 
-        borderRadius: "10px",
-        fontWeight: "bold",
-        fontSize: "14px", // Smaller font size
-        letterSpacing: "1px",
-        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)", // Subtle shadow
-        textTransform: "uppercase",
-        "&:hover": {
-          backgroundColor: "#f2f2f2", // Light grey on hover
-          transform: "scale(1.05)", // Slight scale-up on hover
-          boxShadow: "0 6px 12px rgba(0, 0, 0, 0.3)", // Stronger shadow on hover
-        },
-        transition:
-          "transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease",
-      }}
-    >
-      {" "}
-      Upload Image
-      <Input
-        type="file"
-        accept="image/*"
-        onChange={handleUpload}
-        sx={{ display: "none" }} // Hide the default input
-      />
-    </Button>
+    <>
+      <Button
+        component="label" // Make the button act like a label for the input
+        sx={{
+          backgroundColor: "white", // White background
+          color: "#cc0000", // Red text color to match theme
+          padding: "8px 16px",
+          borderRadius: "10px",
+          fontWeight: "bold",
+          fontSize: "14px", // Smaller font size
+          letterSpacing: "1px",
+          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)", // Subtle shadow
+          textTransform: "uppercase",
+          "&:hover": {
+            backgroundColor: "#f2f2f2", // Light grey on hover
+            transform: "scale(1.05)", // Slight scale-up on hover
+            boxShadow: "0 6px 12px rgba(0, 0, 0, 0.3)", // Stronger shadow on hover
+          },
+          transition:
+            "transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease",
+        }}
+      >
+        {" "}
+        Upload Image
+        <Input
+          type="file"
+          accept="image/*"
+          onChange={handleUpload}
+          sx={{ display: "none" }} // Hide the default input
+        />
+      </Button>
+      <Snackbar
+        open={openAlert}
+        autoHideDuration={4000}
+        onClose={() => setOpenAlert(false)}
+      >
+        <Alert severity="error" onClose={() => setOpenAlert(false)}>
+          Please upload an Image file
+        </Alert>
+      </Snackbar>
+    </>
   );
 }
 
@@ -213,20 +231,6 @@ function PokemonButton({ image }) {
   );
 }
 
-// function Test() {
-//   const [currentTime, setCurrentTime] = useState(0);
-
-//   useEffect(() => {
-//     fetch('/model/time').then(res => res.json()).then(data => {
-//       setCurrentTime(data.time);
-//     });
-//   }, []);
-
-//   return (
-//     <p>The current time is {currentTime}.</p>
-//   );
-// }
-
 function FirstPage() {
   const [openCam, setOpenCam] = useState(false);
   const [image, setImage] = useState(null);
@@ -261,7 +265,7 @@ function FirstPage() {
           }}
         />
       )}
-      {image && <PokemonButton image={image}/>}
+      {image && <PokemonButton image={image} />}
     </Box>
   );
 }

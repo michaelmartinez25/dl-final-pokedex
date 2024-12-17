@@ -7,7 +7,12 @@ function Heading() {
   const navigate = useNavigate(); // Hook for programmatic navigation
 
   const handleClick = () => {
-    navigate("/"); // Redirect to the home page (replace "/" with your desired route)
+    // if the we're at the home page trigger a refresh
+    if (window.location.pathname === "/") {
+      window.location.reload(); 
+    } else {
+      navigate("/");
+    }
   };
 
   return (

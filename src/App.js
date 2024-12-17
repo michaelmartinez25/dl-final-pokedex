@@ -25,11 +25,10 @@ function App() {
           flexDirection: "column",
           justifyContent: "flex-start",
           alignItems: "center",
+          overflow: "auto",
         }}
       >
-        {/* <div className="app-container"> */}
         <Outlet />
-        {/* </div> */}
       </Box>
     </>
   );
