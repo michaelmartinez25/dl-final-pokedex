@@ -9,10 +9,10 @@ import VolumeUpIcon from '@mui/icons-material/VolumeUp';
  * @param {string} description - the description of the pokemon
  * @returns {JSX.Element} - the button that when click triggers the speaking
  */
-function TextToSpeech({ name, description }) {
+function TextToSpeech({ name, genus, description }) {
   function speak() {
     // create an utterance synthesis
-    const utterance = new SpeechSynthesisUtterance(name + ". " + description);
+    const utterance = new SpeechSynthesisUtterance(name + ", the " + genus + ". " + description);
 
     // the voice of the text-to-speech
     const voice = speechSynthesis.getVoices().filter(voice => voice.name === 'Trinoids')[0];
