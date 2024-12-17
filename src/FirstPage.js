@@ -11,7 +11,9 @@ function UploadImage({ setImage }) {
   function handleUpload(event) {
     const file = event.target.files[0];
     // get the image URL to display it
-    setImage(URL.createObjectURL(file));
+    // console.log("here")
+    // console.log(URL.createObjectURL(file))
+    setImage(file);
   }
   return (
     // <Input type="file" accept="image/*" onChange={handleUpload}/>
@@ -157,11 +159,14 @@ const Camera = ({ openCam, setOpenCam, setImage }) => {
   );
 };
 
-function PokemonButton() {
+function PokemonButton({image}) {
   const navigate = useNavigate();
 
+  // console.log(image)
+
   const handleOnClick = () => {
-    navigate("/whos-that-pokemon", { state: { Pokemon: "pikachu" } });
+    // localStorage.setItem("capturedImage", image);
+    navigate("/whos-that-pokemon", { state: { image: image } });
   };
 
   return (
@@ -197,58 +202,10 @@ function PokemonButton() {
   );
 }
 
-// function Test() {
-//   const [currentTime, setCurrentTime] = useState(0);
-
-//   useEffect(() => {
-//     fetch('/model/time').then(res => res.json()).then(data => {
-//       setCurrentTime(data.time);
-//     });
-//   }, []);
-
-//   return (
-//     <p>The current time is {currentTime}.</p>
-//   );
-// }
-
-function ImageTest() {
-  const [file, setFile] = useState()
-
-  function handleChange(event) {
-    setFile(event.target.files[0])
-  }
-
-  function handleSubmit(event) {
-    event.preventDefault()
-    const url = '/model/classify';
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('fileName', file.name);
-    const config = {
-      headers: {
-        'content-type': 'multipart/form-data',
-      },
-    };
-    axios.post(url, formData, config).then((response) => {
-      console.log(response.data);
-    });
-
-  }
-
-  return (
-    <div className="App">
-        <form onSubmit={handleSubmit}>
-          <h1>File Upload</h1>
-          <input type="file" onChange={handleChange}/>
-          <button type="submit">Upload</button>
-        </form>
-    </div>
-  );
-}
-
 function FirstPage() {
   const [openCam, setOpenCam] = useState(false);
   const [image, setImage] = useState(null);
+  const [captured, setCaptured] = useState(null);
 
   return (
     <Box
@@ -264,7 +221,7 @@ function FirstPage() {
         padding: "20px", // Optional: Add padding if needed
       }}
     >
-      <Camera openCam={openCam} setOpenCam={setOpenCam} setImage={setImage} />
+      <Camera openCam={openCam} setOpenCam={setOpenCam} setImage={setImage} setCaptured={setCaptured}/>
 
       {image && (
         <img
@@ -280,11 +237,9 @@ function FirstPage() {
           }}
         />
       )}
-      {image && <PokemonButton/> && <ImageTest/>}
+      {image && <PokemonButton image={image}/>}
     </Box>
   );
 }
 
 export default FirstPage;
-
-
