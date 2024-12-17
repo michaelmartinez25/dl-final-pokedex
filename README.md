@@ -6,6 +6,8 @@ pip3 install flask
 
 pip3 install python-dotenv
 
+pip3 install torch torchvision
+
 # Flask and Proxy Overview
 
 The Flask backend is self contained within the model-api folder. The rest of the file structure comprises the frontend and entirety of the React app. The backend functions as an API, where all requests the front end doesn't understand get passed along to the backend via a proxy. If you look at package.json, you'll see a line that says "proxy": "proxy": "http://127.0.0.1:5000", (5000 is the port Flask runs on by default).
