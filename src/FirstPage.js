@@ -11,29 +11,30 @@ import { Input, Button, Box, Alert, Snackbar } from "@mui/material";
  * @param {Object} props.setImage - the useState set function for image
  * @returns {JSX.Element} - an upload button
  */
-function UploadImage({ setImage }) {
+function UploadImage({ setImage, setIsCaptured}) {
   const [openAlert, setOpenAlert] = useState(false);
 
   /**
-   * A function that checks if the file is an image. if it is
-   * turn it into a base64 dataURL to display it for the user
+   * Upload, handler. Checks if the file is an image. if it is
+   * turns image into a base64 dataURL to display it for the user
    */
   function handleUpload(event) {
     const file = event.target.files[0];
     // get the image URL to display it
     if (file && file.type.startsWith("image/")) {
-      // Create a FileReader to convert file to Base64
+      // create a FileReader to convert file to base64
       const reader = new FileReader();
 
       reader.onload = (e) => {
         const base64Image = e.target.result;
         setImage(base64Image);
+        // set isCaptured to false, since it's an uploaded image
+        setIsCaptured(false)
       };
       // turns image to dataUrl, base64
       reader.readAsDataURL(file);
     } else if (file) {
-      // if there's a file that's uploaded that is not an image file
-      // this opens an alert component inside a snackbar at the bottom left
+      // if there's a file that's uploaded that is not an image file, open alert
       setOpenAlert(true);
     }
   }
@@ -94,21 +95,28 @@ function UploadImage({ setImage }) {
  * @returns {JSX.Element} - an "access camera" component or a webcam with a capture component
  *                           depending on whether openCam is true/false
  */
-function Camera({ openCam, setOpenCam, setImage }) {
+function Camera({ openCam, setOpenCam, setImage, setIsCaptured }) {
   const webcamRef = useRef(null);
-  const onAcessClick = () => {
-    setOpenCam(true);
-    setImage(null);
-  };
 
   /**
-   * A function captures a webcam photo
+   * handler for accessClick, sets open cam State
+   */
+  function onAcessClick() {
+    setOpenCam(true);
+    // set whether or image is a webcam photo to true
+    setIsCaptured(true);
+    setImage(null);
+  }
+
+  /**
+   * handler for capture butto, captures a webcam photo
    */
   function capture() {
     // Get a screenshot of webcam
     const imageSrc = webcamRef.current.getScreenshot();
     setImage(imageSrc);
   }
+
   return (
     <div>
       {!openCam ? (
@@ -126,7 +134,7 @@ function Camera({ openCam, setOpenCam, setImage }) {
             sx={{
               backgroundColor: "#cc0000",
               color: "white",
-              padding: "12px 24px", // padding for
+              padding: "12px 24px", // padding for weight
               fontWeight: "bold",
               fontSize: "18px",
               borderRadius: "10px",
@@ -142,7 +150,7 @@ function Camera({ openCam, setOpenCam, setImage }) {
           >
             Access Camera
           </Button>
-          <UploadImage setImage={setImage} />
+          <UploadImage setImage={setImage} setIsCaptured={setIsCaptured} />
         </Box>
       ) : (
         <Box
@@ -268,6 +276,9 @@ function PokemonButton({ image }) {
 function FirstPage() {
   const [openCam, setOpenCam] = useState(false);
   const [image, setImage] = useState(null);
+  // keeps track if image is captured on webcam or uploaded. it will need to be flipped if it's from the webcam
+  // since the webcam photos here are not like a mirror
+  const [isCaptured, setIsCaptured] = useState(null);
 
   return (
     <Box
@@ -275,26 +286,32 @@ function FirstPage() {
         gap: 1,
         overflowY: "auto", // enable vertical scrolling
         display: "flex",
-        alignItems: "center", // center vertically
+        alignItems: "center",
         height: "100vh",
         width: "100vw",
         flexDirection: "column",
         padding: "20px",
       }}
     >
-      <Camera openCam={openCam} setOpenCam={setOpenCam} setImage={setImage} />
+      <Camera
+        openCam={openCam}
+        setOpenCam={setOpenCam}
+        setImage={setImage}
+        setIsCaptured={setIsCaptured}
+      />
 
       {image && (
         <img
           src={image}
-          alt="Captured"
+          alt="captured"
           style={{
             height: "auto",
             width: "15%",
-            maxWidth: "400px", // set a max width
-            maxHeight: "300px", // set max height
+            maxWidth: "300px", // set a max width
+            maxHeight: "150px", // set max height
             borderRadius: "10px",
-            transform: "scaleX(-1)",
+            objectFit: "contain",
+            transform: isCaptured ? "scaleX(-1)" : "scaleX(1)", // flip photo if it's captured on webcam
           }}
         />
       )}

@@ -30,7 +30,7 @@ function Heading() {
       sx={{
         position: "fixed",
         top: 0,
-        background: "linear-gradient(45deg, #b30000, #cc3333)", // Gradient background
+        background: "linear-gradient(45deg, #b30000, #cc3333)", // gradient background
         padding: "10px 0",
         boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
         transition: "box-shadow 0.3s ease",

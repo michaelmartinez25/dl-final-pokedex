@@ -16,6 +16,6 @@ For example, a request http://localhost:3000/model/classify from the front end g
 
 # How to Run
 
-First, to start the react frontend: npm start
+First, to start the flask backend: npm run-script start-model-api
 
-Once up, start the flask backend: npm run-script start-model-api
+Once up, start the react frontend: npm start

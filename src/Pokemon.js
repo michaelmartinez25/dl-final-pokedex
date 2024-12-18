@@ -37,7 +37,10 @@ function PokemonDetails({ pokemonInfo, pokemonSpecies }) {
    * 
    */
   function handleClose() {
+    // in case the the text to speech is still talking, stop it
+    speechSynthesis.cancel();
     navigate("/");
+
   }
 
   return (
